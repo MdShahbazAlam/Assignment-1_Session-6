@@ -1,0 +1,68 @@
+Assignment-1_Session-6
+
+Problem Statement:
+
+1. Use the given link and locate the bank marketing dataset. Data Set Link
+
+Perform the below operations:
+
+a. Create a visual for representing missing values in the dataset.
+Answer-
+Bank_data <- read.csv("bank-additional.csv", header= True, sep = ";")
+head(Bank_data)
+dim(Bank_data)
+table(is.na(Bank_data)) # Checking NAs value.
+
+#Converting the 'unknown' value to NAs.
+Bank_data[Bank_data == 'unknown'] <- NA
+
+library(VIM)
+# For the purpose of visulization as a graph to show NAs.
+# Each red line in the plot shows one NA value.
+matrixplot(Bank_data)
+
+# For the pupose to give output as a percentage of NAs in the column.
+sapply(Bank_data, function(x) (sum(is.na(x))/nrow(Bank_data))*100)
+
+
+b. Show a distribution of clients based on a job.
+Answer-
+Bank_data <- read.csv("bank-additional.csv", header= True, sep = ";")
+Dist_Bank_data <- table(Bank_data$job)
+# Distribution in tabular form
+Dist_Bank_data
+
+# distribution in graphical form
+title <- barplot(Dist_Bank_data, xlab = "Job", ylab = "Numbers", main = "Clients based on Job",
+                 col = grey, las=3)
+
+c. Check whether is there any relation between Job and Marital Status?
+Answer-
+We take Ho : There is no relation between Job and Marital Status.
+# For checking relation between Job and Marital Status we perform chisq test.
+chisq.test(Bank_data$job, Bank_data$marital)
+
+# Result
+Pearson's Chi-squared test
+
+data:  Bank_data$job and Bank_data$marital
+X-squared = 395.28, df = 20, p-value < 2.2e-16
+
+# Since the p-value is less than 0.05, there is relation between Job and Marital Status.
+# There is association between Job and Marital status at 95% confidence level
+
+
+d. Check whether is there any association between Job and Education?
+Answer-
+We take Ho : There is no relation between Job and Education.
+# For checking relation between Job and Education we perform chisq test.
+chisq.test(Bank_data$job, Bank_data$education)
+
+# Result
+	Pearson's Chi-squared test
+
+data:  Bank_data$job and Bank_data$education
+X-squared = 3429, df = 60, p-value < 2.2e-16
+
+# Since the p-value is less than 0.05, there is relation between Job and Education.
+# There is association between Job and Education at 95% confidence level.
